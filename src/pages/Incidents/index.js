@@ -1,12 +1,20 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
+
 
 import logoImg from '../../assets/logo.png';
 
 import styles from './styles';
 
 export default () => {
+    const navigation = useNavigation();
+
+    const navigateToDetail = () => {
+        navigation.navigate('Detail');
+    }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -24,30 +32,30 @@ export default () => {
                 keyExtractor={incident => String(incident)}
                 showsVerticalScrollIndicator={false}
                 renderItem={() => (
-                    <View  style={styles.incident}>
+                    <View style={styles.incident}>
                         <Text style={styles.incidentProperty}>
-                                ONG:
+                            ONG:
                         </Text>
                         <Text style={styles.incidentValue}>
-                                Avengers
+                            Avengers
                         </Text>
 
                         <Text style={styles.incidentProperty}>
-                                Caso:
+                            Caso:
                         </Text>
                         <Text style={styles.incidentValue}>
-                                lorem isum bla bla
+                            lorem isum bla bla
                         </Text>
 
                         <Text style={styles.incidentProperty}>
-                                Valor:
+                            Valor:
                         </Text>
                         <Text style={styles.incidentValue}>
-                                R$ 500,00
+                            R$ 500,00
                         </Text>
                         <TouchableOpacity
                             style={styles.detailsButton}
-                            onPress={() => { }}
+                            onPress={navigateToDetail}
                         >
                             <Text style={styles.detailsButtonText}> ver mais detalhes</Text>
                             <Feather
