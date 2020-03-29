@@ -50,21 +50,21 @@ export default () => {
                 </Text>
                 <Text style={styles.incidentValue}>
                     Avengers
-                        </Text>
+                </Text>
 
                 <Text style={styles.incidentProperty}>
                     Caso:
-                        </Text>
+                </Text>
                 <Text style={styles.incidentValue}>
                     lorem isum bla bla
-                        </Text>
+                </Text>
 
                 <Text style={styles.incidentProperty}>
                     Valor:
                 </Text>
                 <Text style={styles.incidentValue}>
                     R$ 500,00
-                        </Text>
+                </Text>
             </View>
 
             <View style={styles.contactBox}>
