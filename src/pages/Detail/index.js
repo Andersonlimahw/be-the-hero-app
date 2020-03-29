@@ -1,4 +1,7 @@
 import React from 'react';
+import * as MailComposer from 'expo-mail-composer';
+import { Linking } from 'react-native';
+
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
@@ -8,17 +11,28 @@ import styles from './styles';
 
 export default () => {
     const navigation = useNavigation();
+    const message = 'Olá, apad estou entrando em contato para ajudar com o valor de R$ 1.000.000,00 neste caso "Cadelinha atropelada"';
+    const phone = '11951305533';
 
     const navigatBack = () => {
         navigation.goBack();
+    }
+
+    const sendEmail = () => {
+        MailComposer.composeAsync({
+            subject: 'Heróis do caso: Cadelinha atropelada', 
+            recipients: ['andersonlimahw@gmail.com'], 
+            body: message
+        });
+    }
+
+    const sendWhastapp = () => {
+        Linking.openURL(`whatsapp://send?phone${phone}&text=${message}`);
     }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image source={logoImg} />
-                <Text style={styles.headerText}>
-                    <Text style={styles.headerCount}> Be the hero</Text>
-                </Text>
                 <TouchableOpacity
                     onPress={navigatBack}
                 >
@@ -67,13 +81,13 @@ export default () => {
 
                 <View style={styles.actions}>
                     <TouchableOpacity
-                        onPress={() => { }}
+                        onPress={sendWhastapp}
                         style={styles.action}
                     >
                         <Text style={styles.actionText}>Whatsapp</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => { }}
+                        onPress={sendEmail}
                         style={styles.action}
                     >
                         <Text style={styles.actionText}>E-mail</Text>
