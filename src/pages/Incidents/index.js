@@ -14,14 +14,32 @@ export default () => {
     const [incidents, setIncidents] = useState([]);
     const [total, setTotal] = useState(0);
 
-    const navigateToDetail = () => {
-        navigation.navigate('Detail');
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+
+    const navigateToDetail = (incident) => {
+        navigation.navigate('Detail', {
+            incident
+        });
     }
     const loadIncidents = async () => {
         try {
-            const response = await api.get('incidents');
+            if(loading) {
+                return;
+            }
+            if(total > 0 && incidents.length === total) {
+                return;
+            }
+
+            setLoading(true);
+
+            const response = await api.get('incidents', {
+                params: { page }
+            });
             setTotal(response.headers['x-total-count']);
-            setIncidents(response.data);
+            setIncidents([...incidents, ...response.data]);
+            setPage(page + 1);
+            setLoading(false);
         } catch (ex) {
             console.error('Erro ao carregar incidentes : ', ex);
         }
@@ -41,13 +59,15 @@ export default () => {
                 </Text>
             </View>
             <Text style={styles.title}>Bem-vindo!</Text>
-            <Text style={styles.description}>lorem bla bla</Text>
+            <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia!</Text>
 
             <FlatList
                 style={styles.incidentList}
                 data={incidents}
                 keyExtractor={incident => String(incident.id)}
                 showsVerticalScrollIndicator={false}
+                onEndReached={loadIncidents}
+                onEndReachedThreshold={0.2}
                 renderItem={({ item: incident }) => (
                     <View style={styles.incident}>
                         <Text style={styles.incidentProperty}>
@@ -77,7 +97,7 @@ export default () => {
                         </Text>
                         <TouchableOpacity
                             style={styles.detailsButton}
-                            onPress={navigateToDetail}
+                            onPress={() => navigateToDetail(incident)}
                         >
                             <Text style={styles.detailsButtonText}> ver mais detalhes</Text>
                             <Feather
